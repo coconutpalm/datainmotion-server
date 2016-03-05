@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <!-- TODO:
+       Factor into parent plus 3 subprojects:
+        * Parent installs karaf-maven-plugin per https://karaf.apache.org/manual/latest/developers-guide/karaf-maven-plugin.html
+        * Eclipse Karaf subproject adds repo.eclipse.org, depends on parts of Eclipse we need, and uses the "feature" packaging to let us depend on Eclipse
+        * BD System subproject uses "feature" packaging to add system BD bundles: mainly OSGI-Clojure, Boot, and Leiningen support bundles to start.
+        * Assembly subproject builds the base BD Karaf container
+        * Write Maven plugin to allow use of Boot or Leiningen as Maven subprojects (?)
+
+       Next:
+        * Repackage ContentShift as a Karaf Feature
+        * Repackage Icarrp as a Karaf Feature -->
+
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bradsdeals</groupId>
+  <artifactId>du-jour-server</artifactId>
+  <version>1.0</version>
+  <packaging>karaf-assembly</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <karaf-version>4.0.4</karaf-version>
+    <ipojo-version>1.12.1</ipojo-version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <!-- scope is compile so all features (there is only one) are installed
+        into startup.properties and the feature repo itself is not added in etc/org.apache.karaf.features.cfg
+        file -->
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>framework</artifactId>
+      <version>${karaf-version}</version>
+      <type>kar</type>
+    </dependency>
+    <dependency>
+      <!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg
+        file, and features will installed into the system directory if specify in
+        the plugin configuration -->
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>standard</artifactId>
+      <version>${karaf-version}</version>
+      <classifier>features</classifier>
+      <type>xml</type>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Additional features beyond the standard Karaf container -->
+    <dependency>
+	    <groupId>org.apache.felix</groupId>
+	    <artifactId>org.apache.felix.ipojo.features</artifactId>
+	    <version>${ipojo-version}</version>
+	    <type>xml</type>
+	    <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+	    <groupId>com.bradsdeals</groupId>
+	    <artifactId>nodejs-karaf</artifactId>
+	    <version>1.0</version>
+	    <type>xml</type>
+	    <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>eclipse.org</id>
+      <name>Eclipse's m2 repo</name>
+      <url>http://repo.eclipse.org</url>
+    </repository>
+    <repository>
+      <id>clojars.org</id>
+      <name>Clojure's home repo</name>
+      <url>http://clojars.org/repo</url>
+    </repository>
+  </repositories>
+  
+  <build>
+    <!-- if you want to include resources in the distribution -->
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+	        <exclude>**/.git</exclude>
+        </excludes>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/filtered-resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- if you want to include resources in the distribution -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>process-resources</id>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.karaf.tooling</groupId>
+        <artifactId>karaf-maven-plugin</artifactId>
+        <version>${karaf-version}</version>
+        <extensions>true</extensions>
+        <configuration>
+	        <bootRepositories>
+		        <repository>mvn:org.apache.felix/org.apache.felix.ipojo.features/${ipojo-version}/xml</repository>
+	        </bootRepositories>
+	        <!-- no startupFeatures -->
+          <bootFeatures>
+            <feature>standard</feature>
+            <feature>management</feature>
+            <feature>webconsole</feature>
+            <feature>ipojo-all</feature>
+            <feature>ipojo-webconsole</feature>
+            <feature>nodejs-karaf</feature>
+          </bootFeatures>
+          <installedFeatures>
+            <feature>wrapper</feature>
+          </installedFeatures>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
