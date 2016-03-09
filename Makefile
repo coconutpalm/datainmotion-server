@@ -1,19 +1,22 @@
 # Makefile making rebuilding/testing faster
 
+SERVER="datainmotion.server"
+VERSION="1.0"
+
 ALL: package unpack run
 
 package:
 	mvn clean package
 
 unpack: remove-old-server-build
-	tar -xzvf target/du-jour-server-1.0.tar.gz
+	tar -xzvf target/${SERVER}-${VERSION}.tar.gz
 
 clean: remove-old-server-build
 	mvn clean
 
 run:
-	du-jour-server-1.0/bin/karaf
+	${SERVER}-${VERSION}/bin/karaf
 
 remove-old-server-build:
-	rm -fr du-jour-server-1.0
+	rm -fr ${SERVER}-${VERSION}
 
