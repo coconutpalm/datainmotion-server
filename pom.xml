@@ -17,8 +17,8 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.bradsdeals</groupId>
-  <artifactId>du-jour-server</artifactId>
+  <groupId>com.github.coconutpalm</groupId>
+  <artifactId>datainmotion.server</artifactId>
   <version>1.0</version>
   <packaging>karaf-assembly</packaging>
 
@@ -26,6 +26,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <karaf-version>4.0.4</karaf-version>
     <ipojo-version>1.12.1</ipojo-version>
+    <nodejs-feature-version>1.0.1</nodejs-feature-version>
   </properties>
 
   <dependencies>
@@ -60,15 +61,20 @@
     </dependency>
 
     <dependency>
-	    <groupId>com.bradsdeals</groupId>
-	    <artifactId>nodejs-karaf</artifactId>
-	    <version>1.0</version>
+	    <groupId>com.github.coconutpalm</groupId>
+	    <artifactId>datainmotion-nodejs</artifactId>
+	    <version>${nodejs-feature-version}</version>
 	    <type>xml</type>
 	    <scope>runtime</scope>
     </dependency>
   </dependencies>
 
   <repositories>
+    <repository>
+	    <id>jitpack.io</id>
+	    <name>Jitpack repo</name>
+	    <url>https://jitpack.io</url>
+	 </repository>
     <repository>
       <id>eclipse.org</id>
       <name>Eclipse's m2 repo</name>
@@ -126,6 +132,7 @@
         <configuration>
 	        <bootRepositories>
 		        <repository>mvn:org.apache.felix/org.apache.felix.ipojo.features/${ipojo-version}/xml</repository>
+		        <repository>mvn:com.github.coconutpalm/datainmotion-nodejs/${nodejs-feature-version}/xml</repository>
 	        </bootRepositories>
 	        <!-- no startupFeatures -->
           <bootFeatures>
@@ -134,7 +141,7 @@
             <feature>webconsole</feature>
             <feature>ipojo-all</feature>
             <feature>ipojo-webconsole</feature>
-            <feature>nodejs-karaf</feature>
+            <feature>datainmotion-nodejs</feature>
           </bootFeatures>
           <installedFeatures>
             <feature>wrapper</feature>
