@@ -7,8 +7,6 @@
         * Parent installs karaf-maven-plugin per https://karaf.apache.org/manual/latest/developers-guide/karaf-maven-plugin.html
         * Eclipse Karaf subproject adds repo.eclipse.org, depends on parts of Eclipse we need, and uses the "feature" packaging to let us depend on Eclipse
         * BD System subproject uses "feature" packaging to add system BD bundles: mainly OSGI-Clojure, Boot, and Leiningen support bundles to start.
-        * Assembly subproject builds the base BD Karaf container
-        * Write Maven plugin to allow use of Boot or Leiningen as Maven subprojects (?)
 
        Next:
         * Repackage ContentShift as a Karaf Feature
@@ -26,7 +24,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <karaf-version>4.0.4</karaf-version>
     <ipojo-version>1.12.1</ipojo-version>
-    <nodejs-feature-version>1.0.1</nodejs-feature-version>
+    <nodejs-feature-version>1.0.2</nodejs-feature-version>
   </properties>
 
   <dependencies>
