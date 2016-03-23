@@ -1,0 +1,41 @@
+# Makefile making rebuilding/testing faster
+
+SERVER="datainmotion.server"
+VERSION="1.0"
+
+# Nodejs
+NODEJS_DIR="nodejs"
+NODEJSLIB="libavatar-js-"
+NODEJSLIBVERSION="0.10.32-SNAPSHOT"
+
+NODE_LINUX_DL="${NODEJSLIB}linux-x64-${NODEJSLIBVERSION}.so"
+NODE_MAC_DL="${NODEJSLIB}macosx-x64-${NODEJSLIBVERSION}.dylib"
+NODE_WIN_DLxs="${NODEJSLIB}win-x64-${NODEJSLIBVERSION}.dll"
+
+JAR_SRC="https://maven.java.net/#nexus-search;quick~avatar-js"
+SO_SRC="https://maven.java.net/#nexus-search;quick~libavatar-js"
+
+POUCHDB_SRC="https://github.com/pouchdb/pouchdb/archive/master.zip"
+POUCHDB_ZIP="pouchdb-master.zip"
+
+
+ALL: package unpack run
+
+package:
+	mvn clean package
+
+unpack: remove-old-server-build
+	tar -xzvf target/${SERVER}-${VERSION}.tar.gz
+
+clean: remove-old-server-build
+	mvn clean
+
+
+
+run: nodejs pouchdb
+	export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$PWD/nodejs" && \
+	export DYLD_LIBRARY_PATH="$LD_LIBRARY_PATH:$PWD/nodejs" && \
+	${SERVER}-${VERSION}/bin/karaf
+
+remove-old-server-build:
+	rm -fr ${SERVER}-${VERSION}
