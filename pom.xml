@@ -121,7 +121,6 @@
         <configuration>
 	        <bootRepositories>
 		        <repository>mvn:org.apache.felix/org.apache.felix.ipojo.features/${ipojo-version}/xml</repository>
-		        <repository>mvn:com.github.coconutpalm/datainmotion-nodejs/${nodejs-feature-version}/xml</repository>
 	        </bootRepositories>
 	        <!-- no startupFeatures -->
           <bootFeatures>
