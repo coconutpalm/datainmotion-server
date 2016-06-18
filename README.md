@@ -35,6 +35,3 @@ in a container that would generate a server project and POM for building it.
 * Run `make` without any arguments to build and run the current server container.
 * Run `make clean` to remove all built artifacts and the unpacked test container.
 * Run `make package` to build the server zip files.
-
-
-
