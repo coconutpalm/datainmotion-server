@@ -22,4 +22,3 @@ remove-old-server-build:
 
 boot:
 	curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot
-
