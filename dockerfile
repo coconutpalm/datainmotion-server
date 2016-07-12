@@ -1,5 +1,7 @@
-#Run using docker command
+# From: https://soucianceeqdamrashti.wordpress.com/2015/12/04/running-karafhawtiocamel-inside-docker/
+# Run using docker command
 # docker run -d -p 8181:8181 –name karaf karaf:4.0.2
+
 FROM java:8u66
 MAINTAINER soucianceeqdamrashti <souciance.eqdam.rashti@gmail.com>
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
