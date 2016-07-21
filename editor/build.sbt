@@ -5,6 +5,10 @@ import Keys._
 // import trafficland.opensource.sbt.plugins._
 // seq(StandardPluginSet.plugs : _*)
 
+
+// resolvers += sbt.Resolver.bintrayRepo("denigma", "denigma-releases") //add resolver
+
+
 lazy val clients = Seq(scalajsclient)
 lazy val scalaV = "2.11.8"
 
@@ -14,8 +18,7 @@ lazy val playserver = (project in file("play")).
   scalaVersion := scalaV,
   scalaJSProjects := clients,
   libraryDependencies ++= Seq(
-    "com.lihaoyi" %% "scalatags" % "0.5.5",
-    "org.webjars" % "jquery" % "3.0.0"
+    "com.lihaoyi" %% "scalatags" % "0.6.0"
   )
 ).enablePlugins(PlayScala, SbtOsgi).
   aggregate(clients.map(projectToRef): _*).
@@ -31,7 +34,11 @@ lazy val scalajsclient = (project in file("scalajs")).settings(
   unmanagedSourceDirectories in Compile := Seq((scalaSource in Compile).value),
   libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.8.2",
-    "com.lihaoyi" %%% "scalatags" % "0.5.5"
+    // "org.webjars.npm" % "bootstrap" % "3.3.6",
+    "org.webjars.npm" % "codemirror" % "5.16.0",
+    "org.singlespaced" %%% "scalajs-d3" % "0.3.3",
+    "com.github.karasiq" %%% "scalajs-bootstrap" % "1.1.2",
+    "com.lihaoyi" %%% "scalatags" % "0.6.0"
   )
 ).enablePlugins(ScalaJSPlugin, ScalaJSPlay).
   dependsOn(sharedJs)
