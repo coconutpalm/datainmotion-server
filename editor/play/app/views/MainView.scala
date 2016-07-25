@@ -39,7 +39,9 @@ object MainView {
 
       ),
 
-      body(contents,
+      body(attr("role") := "document",
+             nav(class := "navbar navbar-inverse navbar-fixed-top"),
+        contents,
            // Bootstrap.js
            script(src := "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js",
                   attr("integrity") := "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS",
