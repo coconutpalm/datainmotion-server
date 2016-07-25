@@ -3,12 +3,12 @@
                   [adzerk/boot-reload        "0.4.12"]
                   [compojure                 "1.6.0-beta1"]
                   [hoplon/boot-hoplon        "0.2.2"]
-                  [hoplon/castra             "3.0.0-SNAPSHOT"]
+                  [hoplon/castra             "3.0.0-alpha4"]
                   [hoplon/hoplon             "6.0.0-alpha16"]
-                  [org.clojure/clojure       "1.7.0"]
+                  [org.clojure/clojure       "1.8.0"]
                   [org.clojure/clojurescript "1.9.93"]
                   [pandeiro/boot-http        "0.7.3"]
-                  [ring                      "1.6.0-beta4"]
+                  [ring                      "1.5.0"]
                   [ring/ring-defaults        "0.2.1"]]
   :resource-paths #{"resources" "src/clj"}
   :source-paths   #{"src/cljs" "src/hl"})
