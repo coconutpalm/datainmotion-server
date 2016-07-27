@@ -7,6 +7,8 @@
                   [hoplon/hoplon             "6.0.0-alpha16"]
                   [org.clojure/clojure       "1.8.0"]
                   [org.clojure/clojurescript "1.9.93"]
+                  [compliment                "0.3.0"]
+                  [com.github.shopsmart/clojure-navigation "1.0.1"]
                   [pandeiro/boot-http        "0.7.3"]
                   [ring                      "1.5.0"]
                   [ring/ring-defaults        "0.2.1"]]
