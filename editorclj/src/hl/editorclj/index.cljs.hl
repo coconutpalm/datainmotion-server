@@ -1,18 +1,21 @@
 (page "index.html"
   (:require
-    [editorclj.rpc :as rpc]))
+   [editorclj.rpc :as rpc]
+   [editorclj.codemirror :as e]))
 
 (rpc/init)
 
 (html
+ (html-meta :charset "utf-8")
+ (html-meta :http_equiv "X-UA-Compatible" :content "IE=edge")
+ (html-meta :name "viewport" :content "width=device-width, initial-scale=1")
+
+ (html-meta :name "description"
+            :content "Embeddable multi-language code editor for Java, Scala, Clojure, Javascript, CSS, and so on...")
+ (html-meta :name "author"
+            :content "David Orme; ShopSmart, LLC.")
+
  (head
-  (html-meta :charset "utf-8")
-  (html-meta :http_equiv "X-UA-Compatible" :content "IE=edge")
-  (html-meta :name "viewport" :content "width=device-width, initial-scale=1")
-
-  (html-meta :name "description" :content "Embeddable multi-language code editor for Java, Scala, Clojure, Javascript, CSS, and so on...")
-  (html-meta :name "author" :content "David Orme; ShopSmart, LLC.")
-
   (title "Data in Motion")
 
   (link :rel "stylesheet"
@@ -24,6 +27,8 @@
         :href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
         :integrity "sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
         :crossorigin "anonymous")
+
+  (link :rel "stylesheet" :href "vendor/codemirror/codemirror.css")
 
   (link :href "app.css" :rel "stylesheet"))
 
@@ -51,8 +56,25 @@
        (div :class "home" :role "main"
             (hr)
             (h1 "Hello, Hoplon and Castra!")
-            (tt (text "session = ~{rpc/session-number}, random = ~{rpc/random-number}")))
+            (tt (text "session = ~{rpc/session-number}, random = ~{rpc/random-number}"))
+            (br)
+            (textarea :id "code" :name "code")))
 
-       (script :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-               :integrity "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-               :crossorigin "anonymous")))
+ (on! js/document :ready
+      (fn [_]
+        (let [textarea (.getElementById js/document "code")
+              editor (e/create-editor
+                      textarea
+                      {:mode "gfm"
+                       :lineNumbers true
+                       :autoCloseBrackets true
+                       :foldGutter true
+                       :extraKeys {"Ctrl-Space" "autocomplete"
+                                   "Ctrl-/" "toggleComment"}
+                       :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
+                       :highlightSelectionMatches {:showToken #"\w" :annotateScrollbar true}
+                       :theme "default"})])))
+
+ (script :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+         :integrity "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+         :crossorigin "anonymous"))

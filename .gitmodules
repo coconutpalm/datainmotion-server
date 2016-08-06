@@ -1,3 +1,6 @@
 [submodule "scalajs-bootstrap"]
 	path = scalajs-bootstrap
 	url = git@github.com:coconutpalm/scalajs-bootstrap.git
+[submodule "editorclj/resources/public/CodeMirror"]
+	path = editorclj/resources/public/CodeMirror
+	url = git@github.com:codemirror/CodeMirror.git

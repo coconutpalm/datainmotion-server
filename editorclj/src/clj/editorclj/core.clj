@@ -8,8 +8,8 @@
 
 (ns editorclj.core
   (:require
-    [editorclj.handler          :as handler]
-    [ring.adapter.jetty             :refer [run-jetty]]))
+   [editorclj.handler          :as handler]
+   [ring.adapter.jetty         :refer [run-jetty]]))
 
 (def server (atom nil))
 
