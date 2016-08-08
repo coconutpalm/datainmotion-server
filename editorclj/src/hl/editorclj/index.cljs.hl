@@ -55,9 +55,6 @@
 
        (div :class "home" :role "main"
             (hr)
-            (h1 "Hello, Hoplon and Castra!")
-            (tt (text "session = ~{rpc/session-number}, random = ~{rpc/random-number}"))
-            (br)
             (textarea :id "code" :name "code")))
 
  (on! js/document :ready
