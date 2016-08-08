@@ -1,13 +1,35 @@
-body {
-    margin: 0;
-    padding: 20px;
-}
 
 h1 {
     color: blue;
 }
 
-.CodeMirror {border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
+html,body {
+    height:100%;
+    min-height:100%;
+    width:100%;
+    margin: 0;
+    padding: 20px;
+}
+
+textarea {
+    height:100%;
+    min-height:100%;
+    width:100%;
+}
+
+div.home {
+    height:100%;
+    min-height:100%;
+    width:100%;
+}
+div.CodeMirror {
+    height:100%;
+    min-height:100%;
+    width:100%;
+}
+
+.CodeMirror {border-top: 1px solid #eee;
+             border-bottom: 1px solid #eee;}
 
 .CodeMirror-focused .cm-matchhighlight {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==);
@@ -18,3 +40,4 @@ h1 {
 .cm-matchhighlight {background-color: lightgreen}
 
 .CodeMirror-selection-highlight-scrollbar {background-color: green}
+
