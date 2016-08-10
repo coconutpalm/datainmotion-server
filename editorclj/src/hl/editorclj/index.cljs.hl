@@ -5,6 +5,8 @@
 
 (rpc/init)
 
+(defn get-element [id] (.getElementById js/document id))
+
 (html
  (html-meta :charset "utf-8")
  (html-meta :http_equiv "X-UA-Compatible" :content "IE=edge")
@@ -24,11 +26,22 @@
         :crossorigin "anonymous")
 
   (link :rel "stylesheet"
-        :href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
-        :integrity "sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
+        :href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+        :integrity "sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
         :crossorigin "anonymous")
 
-  (link :rel "stylesheet" :href "vendor/codemirror/codemirror.css")
+  (link :rel "stylesheet" :href "CodeMirror/lib/codemirror.css")
+  (link :rel "stylesheet" :href "CodeMirror/addon/display/fullscreen.css")
+  (link :rel "stylesheet" :href "CodeMirror/addon/fold/foldgutter.css")
+  (link :rel "stylesheet" :href "CodeMirror/addon/dialog/dialog.css")
+  (link :rel "stylesheet" :href "CodeMirror/addon/hint/show-hint.css")
+
+  (link :rel "stylesheet" :href "app.css")
+
+
+  (script :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+          :integrity "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+          :crossorigin "anonymous")
 
   (link :href "app.css" :rel "stylesheet"))
 
@@ -48,30 +61,66 @@
                               (span :class "icon-bar")
                               (span :class "icon-bar")
                               (span :class "icon-bar"))
-                      (a :class "navbar-brand" :href "#" (text "Data in Motion")))
+                      (a :class "navbar-brand" :href "#" (text ".dm")))
                  (div :id "navbar" :class "navbar-collapse collapse"
                       (ul :class "nav navbar-nav"
-                          (li :class "active" (a :href "#/new-workspace" (text "+")))))))
+                          (li (a :href "#" (text "<<")))
+                          (li :class "dropdown"
+                              (a :href "#"
+                                 :class "dropdown-toggle"
+                                 :data-toggle "dropdown"
+                                 :role "button"
+                                 :aria-haspopup "true"
+                                 :aria-expanded "false"
+                                 (text "Workspaces ")
+                                 (span :class "caret"))
+                              (ul :class "dropdown-menu"
+                                  (li (a :href "#/workspaces/Home" (text "Home")))
+                                  (li :role "separator" :class "divider")
+                                  (li (a :href "#/workspaces?action=new" (text "New...")))
+                                  (li (a :href "#/workspaces?action=open" (text "Open...")))
+                                  (li (a :href "#/workspaces?action=close" (text "Close current")))))) ; Make inactive if home is current
+                      (ul :class "nav navbar-nav navbar-right"
+                          (li (a :href "#" (text ">>")))))))
 
-       (div :class "home" :role "main"
-            (br)
-            (textarea :id "code" :name "code")))
+       (div :class "home horizontal" :role "main"
+            (div :class "workspace" :id "home-workspace"
+                 (textarea :id "main-config" :name "main-config"))
+
+            (div :class "workspace" :id "code"
+                 (div :class "tab-content"
+                      (div :id "home" :class "tab-pane fade in active"
+                           (textarea :id "code" :name "code"))
+                      (div :id "menu1" :class "tab-pane fade active"
+                           (textarea :id "code2" :name "code2"))
+                      (div :id "menu2" :class "tab-pane fade active"
+                           (textarea :id "code3" :name "code3"))))
+            ))
 
  (on! js/document :ready
       (fn [_]
-        (let [textarea (.getElementById js/document "code")
-              editor (e/create-editor
-                      textarea
-                      {:mode "gfm"
-                       :lineNumbers true
-                       :autoCloseBrackets true
-                       :foldGutter true
-                       :extraKeys {"Ctrl-Space" "autocomplete"
-                                   "Ctrl-/" "toggleComment"}
-                       :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
-                       :highlightSelectionMatches {:showToken #"\w" :annotateScrollbar true}
-                       :theme "default"})])))
+        (letfn
+            [(create-editor [textarea]
+               (e/create-editor
+                textarea
+                {:mode "gfm"
+                 :lineNumbers true
+                 :autoCloseBrackets true
+                 :foldGutter true
+                 :lineWrapping true
+                 :extraKeys {"Ctrl-Space" "autocomplete"
+                             "Ctrl-/" "toggleComment"}
+                 :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
+                 :highlightSelectionMatches {:showToken #"\w" :annotateScrollbar true}
+                 :theme "default"}))]
 
- (script :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-         :integrity "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-         :crossorigin "anonymous"))
+            (let [t1 (.getElementById js/document "code")
+                  t2 (.getElementById js/document "code2")
+                  t3 (.getElementById js/document "code3")]
+              (create-editor (get-element "main-config"))
+
+              ;; (create-editor t1)
+              ;; (create-editor t2)
+              ;; (create-editor t3)
+              (.removeClass t2 "active")
+              (.removeClass t3 "active"))))))

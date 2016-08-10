@@ -1,5 +1,7 @@
 (ns editorclj.codemirror
-  (:require [cljsjs.codemirror]
+  (:require [hoplon.core :as h]
+
+            [cljsjs.codemirror]
             [editorclj.codemirror-refs :refer [CodeMirror]]
             [cljsjs.codemirror.addon.display.fullscreen]
 
@@ -311,7 +313,7 @@
             (clj->js to)
             (clj->js options)))
 
-(defn set-bookmard
+(defn set-bookmark
 	[])
 
 (defn find-marks-at

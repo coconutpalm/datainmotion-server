@@ -9,20 +9,31 @@ html,body {
     width:100%;
     margin: 0;
     padding: 20px;
+    overflow: hidden;
 }
 
-textarea {
-    height:100%;
-    min-height:100%;
-    width:100%;
+body { padding-top: 70px; }
+
+.horizontal {
+    font-size: 0; /* Required because inline-block elements have space between them. Other possible solutions for the problem: http://css-tricks.com/fighting... */
+    overflow: hidden;  /* auto for scrollbar; hidden for none */
+    overflow-y: hidden;
+    white-space: nowrap; /* actually this line of code does the "magic" */
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
 }
 
-div.home {
-    height:100%;
-    min-height:100%;
-    width:100%;
+.horizontal > div.workspace {
+    display: inline-block;
+    font-size: 16px; /* Reset font-size back to normal */
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
 }
-div.CodeMirror {
+
+textarea, div.home, div.tab-content, div.tab-pane, div.CodeMirror {
     height:100%;
     min-height:100%;
     width:100%;
@@ -40,4 +51,3 @@ div.CodeMirror {
 .cm-matchhighlight {background-color: lightgreen}
 
 .CodeMirror-selection-highlight-scrollbar {background-color: green}
-
