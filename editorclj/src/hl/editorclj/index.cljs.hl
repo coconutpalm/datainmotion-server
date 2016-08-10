@@ -75,8 +75,10 @@
                                  (text "Workspaces ")
                                  (span :class "caret"))
                               (ul :class "dropdown-menu"
-                                  (li (a :href "#/workspaces/Home" (text "Home")))
+                                  (li (a :href "#/workspaces/home-workspace" (text "Home")))
+                                  (li (a :href "#/workspaces/code" (text "Code")))
                                   (li :role "separator" :class "divider")
+                                  ;; Or do I want to define/undefine workspaces in a workspaces.dm file inside Home?
                                   (li (a :href "#/workspaces?action=new" (text "New...")))
                                   (li (a :href "#/workspaces?action=open" (text "Open...")))
                                   (li (a :href "#/workspaces?action=close" (text "Close current")))))) ; Make inactive if home is current
