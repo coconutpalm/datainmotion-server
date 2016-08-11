@@ -22,7 +22,7 @@ Global configuration is stored in this file.  Project-specific configuration is 
 ## TODO
 
 * Finish switching to local CodeMirror from CDN
-  * Script to clone/update CM and then remove .git folder or use submodule
+  * Script to clone/update CM and then remove .git folder or use submodule:
   * Check directly into repo
   * Encapsulate CM initialization
     * (codemirror-stylesheets)
@@ -58,6 +58,7 @@ Global configuration is stored in this file.  Project-specific configuration is 
     * (Text results as collapsed outline)
     * Clickable links to files in tree
     * if inside a Github repo, supports Git operations
+  * Gorilla notebooks?
 
 * REPL workspaces?  *Or should we just support extending workspaces with new editor types?*
   * Ammonite?
