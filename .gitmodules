@@ -4,3 +4,6 @@
 [submodule "editorclj/resources/public/CodeMirror"]
 	path = editorclj/resources/public/CodeMirror
 	url = git@github.com:codemirror/CodeMirror.git
+[submodule "editorclj/resources/public/hammer.js"]
+	path = editorclj/resources/public/hammer.js
+	url = git@github.com:hammerjs/hammer.js.git
