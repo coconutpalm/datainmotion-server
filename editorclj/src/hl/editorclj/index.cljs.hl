@@ -1,11 +1,40 @@
 (page "index.html"
-  (:require
-   [editorclj.rpc :as rpc]
-   [editorclj.codemirror :as e]))
+      (:require
+       [editorclj.rpc :as rpc]
+       [editorclj.codemirror :as e]))
 
 (rpc/init)
 
 (defn get-element [id] (.getElementById js/document id))
+
+(defn create-editor
+  [textarea config]
+  (.fromTextArea js/CodeMirror textarea (clj->js config)))
+
+;; See also http://stackoverflow.com/questions/18828658/how-to-kill-a-codemirror-instance
+;;   ...and http://bl.ocks.org/jasongrout/5378313   CodeMirror live widgets
+;;  https://jbt.github.io/markdown-editor and https://github.com/jbt/markdown-editor   GFM editor using CM
+;;  https://github.com/NextStepWebs/simplemde-markdown-editor
+
+(def editor-settings {:mode "gfm"
+                      :autoRefresh true
+                      :lineNumbers true
+                      :autoCloseBrackets true
+                      :foldGutter true
+                      :lineWrapping true
+                      :extraKeys {"Ctrl-Space" "autocomplete"
+                                  "Ctrl-/" "toggleComment"
+                                  "Ctrl-Home" "goDocStart"
+                                  "Ctrl-End" "goDocEnd"}
+                      :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
+                      :highlightSelectionMatches {:showToken #"\w" :annotateScrollbar true}
+                      :theme "default"})
+
+(e/codemirror-js
+ (fn []
+   (println "loaded code mirror")
+   (create-editor (get-element "main-config") editor-settings)))
+
 
 (html
  (html-meta :charset "utf-8")
@@ -30,14 +59,9 @@
         :integrity "sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
         :crossorigin "anonymous")
 
-  (link :rel "stylesheet" :href "CodeMirror/lib/codemirror.css")
-  (link :rel "stylesheet" :href "CodeMirror/addon/display/fullscreen.css")
-  (link :rel "stylesheet" :href "CodeMirror/addon/fold/foldgutter.css")
-  (link :rel "stylesheet" :href "CodeMirror/addon/dialog/dialog.css")
-  (link :rel "stylesheet" :href "CodeMirror/addon/hint/show-hint.css")
+  (e/codemirror-css)
 
   (link :rel "stylesheet" :href "app.css")
-
 
   (script :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
           :integrity "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -93,36 +117,9 @@
                  (div :class "tab-content"
                       (div :id "home" :class "tab-pane fade in active"
                            (textarea :id "code" :name "code"))
-                      (div :id "menu1" :class "tab-pane fade active"
+                      (div :id "menu1" :class "tab-pane fade in"
                            (textarea :id "code2" :name "code2"))
-                      (div :id "menu2" :class "tab-pane fade active"
-                           (textarea :id "code3" :name "code3"))))
-            ))
+                      (div :id "menu2" :class "tab-pane fade in"
+                           (textarea :id "code3" :name "code3"))))))
 
- (on! js/document :ready
-      (fn [_]
-        (letfn
-            [(create-editor [textarea]
-               (e/create-editor
-                textarea
-                {:mode "gfm"
-                 :lineNumbers true
-                 :autoCloseBrackets true
-                 :foldGutter true
-                 :lineWrapping true
-                 :extraKeys {"Ctrl-Space" "autocomplete"
-                             "Ctrl-/" "toggleComment"}
-                 :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
-                 :highlightSelectionMatches {:showToken #"\w" :annotateScrollbar true}
-                 :theme "default"}))]
-
-            (let [t1 (.getElementById js/document "code")
-                  t2 (.getElementById js/document "code2")
-                  t3 (.getElementById js/document "code3")]
-              (create-editor (get-element "main-config"))
-
-              ;; (create-editor t1)
-              ;; (create-editor t2)
-              ;; (create-editor t3)
-              (.removeClass t2 "active")
-              (.removeClass t3 "active"))))))
+ (on! js/window :load (fn [_] (create-editor (get-element "main-config") editor-settings))))

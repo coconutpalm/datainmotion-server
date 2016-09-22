@@ -1,101 +1,148 @@
 (ns editorclj.codemirror
-  (:require [hoplon.core :as h]
+  (:require [hoplon.core :as h :refer [script link]]))
 
-            [cljsjs.codemirror]
-            [editorclj.codemirror-refs :refer [CodeMirror]]
-            [cljsjs.codemirror.addon.display.fullscreen]
+(def codemirror-modules
+  ["lib/codemirror.js"
 
-            [cljsjs.codemirror.addon.mode.loadmode]
-            [cljsjs.codemirror.addon.mode.multiplex]
-            [cljsjs.codemirror.addon.mode.overlay]
-            [cljsjs.codemirror.addon.mode.simple]
+   "addon/display/fullscreen.js"
+   "addon/display/autorefresh.js"
+   "addon/display/panel.js"
 
-            [cljsjs.codemirror.mode.xml]
-            [cljsjs.codemirror.mode.markdown]
-            [cljsjs.codemirror.mode.gfm]
-            [cljsjs.codemirror.mode.javascript]
-            [cljsjs.codemirror.mode.css]
-            [cljsjs.codemirror.mode.htmlmixed]
-            [cljsjs.codemirror.mode.clike]
-            [cljsjs.codemirror.mode.clojure]
-            [cljsjs.codemirror.mode.groovy]
-            [cljsjs.codemirror.mode.haml]
-            [cljsjs.codemirror.mode.nginx]
-            [cljsjs.codemirror.mode.perl]
-            [cljsjs.codemirror.mode.python]
-            [cljsjs.codemirror.mode.r]
-            [cljsjs.codemirror.mode.ruby]
-            [cljsjs.codemirror.mode.shell]
-            [cljsjs.codemirror.mode.yaml]
-            [cljsjs.codemirror.mode.dockerfile]
-            [cljsjs.codemirror.mode.go]
-            [cljsjs.codemirror.mode.sql]
+   "addon/mode/loadmode.js"
+   "addon/mode/multiplex.js"
+   "addon/mode/overlay.js"
+   "addon/mode/simple.js"
 
-            [cljsjs.codemirror.mode.meta]
+   "mode/xml/xml.js"
+   "mode/markdown/markdown.js"
+   "mode/gfm/gfm.js"
+   "mode/javascript/javascript.js"
+   "mode/css/css.js"
+   "mode/htmlmixed/htmlmixed.js"
+   "mode/haskell/haskell.js"
+   "mode/haskell-literate/haskell-literate.js"
+   "mode/clike/clike.js"
+   "mode/clojure/clojure.js"
+   "mode/groovy/groovy.js"
+   "mode/haml/haml.js"
+   "mode/nginx/nginx.js"
+   "mode/perl/perl.js"
+   "mode/python/python.js"
+   "mode/r/r.js"
+   "mode/ruby/ruby.js"
+   "mode/shell/shell.js"
+   "mode/yaml/yaml.js"
+   "mode/dockerfile/dockerfile.js"
+   "mode/go/go.js"
+   "mode/sql/sql.js"
 
-            [cljsjs.codemirror.keymap.emacs]
-            [cljsjs.codemirror.keymap.sublime]
-            [cljsjs.codemirror.keymap.vim]
+   "mode/meta.js"
 
-            [cljsjs.codemirror.addon.fold.foldcode]
-            [cljsjs.codemirror.addon.fold.foldgutter]
-            [cljsjs.codemirror.addon.fold.brace-fold]
-            [cljsjs.codemirror.addon.fold.indent-fold]
-            [cljsjs.codemirror.addon.fold.comment-fold]
-            [cljsjs.codemirror.addon.fold.markdown-fold]
-            [cljsjs.codemirror.addon.fold.xml-fold]
+   "keymap/emacs.js"
+   "keymap/sublime.js"
+   "keymap/vim.js"
 
-            [cljsjs.codemirror.addon.edit.closebrackets]
-            [cljsjs.codemirror.addon.edit.closetag]
-            [cljsjs.codemirror.addon.edit.continuelist]
-            [cljsjs.codemirror.addon.edit.matchbrackets]
-            [cljsjs.codemirror.addon.edit.matchtags]
-            [cljsjs.codemirror.addon.edit.trailingspace]
+   "addon/fold/foldcode.js"
+   "addon/fold/foldgutter.js"
+   "addon/fold/brace-fold.js"
+   "addon/fold/indent-fold.js"
+   "addon/fold/comment-fold.js"
+   "addon/fold/markdown-fold.js"
+   "addon/fold/xml-fold.js"
 
-            [cljsjs.codemirror.addon.comment.comment]
-            [cljsjs.codemirror.addon.comment.continuecomment]
-            [cljsjs.codemirror.addon.dialog.dialog]
+   "addon/edit/closebrackets.js"
+   "addon/edit/closetag.js"
+   "addon/edit/continuelist.js"
+   "addon/edit/matchbrackets.js"
+   "addon/edit/matchtags.js"
+   "addon/edit/trailingspace.js"
 
-            [cljsjs.codemirror.addon.search.search]
-            [cljsjs.codemirror.addon.search.jump-to-line]
-            [cljsjs.codemirror.addon.scroll.annotatescrollbar]
-            [cljsjs.codemirror.addon.search.matchesonscrollbar]
-            [cljsjs.codemirror.addon.search.searchcursor]
-            [cljsjs.codemirror.addon.search.match-highlighter]
+   "addon/comment/comment.js"
+   "addon/comment/continuecomment.js"
+   "addon/dialog/dialog.js"
 
-            [cljsjs.codemirror.addon.selection.active-line]
-            [cljsjs.codemirror.addon.selection.mark-selection]
-            [cljsjs.codemirror.addon.selection.selection-pointer]
+   "addon/search/search.js"
+   "addon/search/jump-to-line.js"
+   "addon/scroll/annotatescrollbar.js"
+   "addon/search/matchesonscrollbar.js"
+   "addon/search/searchcursor.js"
+   "addon/search/match-highlighter.js"
 
-            [cljsjs.codemirror.addon.hint.show-hint]
-            [cljsjs.codemirror.addon.hint.anyword-hint]
+   "addon/selection/active-line.js"
+   "addon/selection/mark-selection.js"
+   "addon/selection/selection-pointer.js"
 
-            [cljsjs.codemirror.addon.hint.css-hint]
-            [cljsjs.codemirror.addon.hint.html-hint]
-            [cljsjs.codemirror.addon.hint.javascript-hint]
-            [cljsjs.codemirror.addon.hint.show-hint]
-            [cljsjs.codemirror.addon.hint.sql-hint]
-            [cljsjs.codemirror.addon.hint.xml-hint]
+   "addon/hint/show-hint.js"
+   "addon/hint/anyword-hint.js"
 
-            [cljsjs.codemirror.addon.lint.coffeescript-lint]
-            [cljsjs.codemirror.addon.lint.css-lint]
-            [cljsjs.codemirror.addon.lint.html-lint]
-            [cljsjs.codemirror.addon.lint.javascript-lint]
-            [cljsjs.codemirror.addon.lint.json-lint]
-            [cljsjs.codemirror.addon.lint.lint]
-            [cljsjs.codemirror.addon.lint.yaml-lint]))
+   "addon/hint/css-hint.js"
+   "addon/hint/html-hint.js"
+   "addon/hint/javascript-hint.js"
+   "addon/hint/show-hint.js"
+   "addon/hint/sql-hint.js"
+   "addon/hint/xml-hint.js"
+
+   "addon/lint/coffeescript-lint.js"
+   "addon/lint/css-lint.js"
+   "addon/lint/html-lint.js"
+   "addon/lint/javascript-lint.js"
+   "addon/lint/json-lint.js"
+   "addon/lint/lint.js"
+   "addon/lint/yaml-lint.js"])
 
 
+(def stylesheets
+  ["lib/codemirror.css"
+   "addon/display/fullscreen.css"
+   "addon/fold/foldgutter.css"
+   "addon/dialog/dialog.css"
+   "addon/search/matchesonscrollbar.css"
+   "addon/hint/show-hint.css"
+   "addon/lint/lint.css"])
 
-(def Doc (.-Doc js/CodeMirror))
+
+(defn cm-script [path] (script :type "text/javascript" :src (str "CodeMirror/" path)))
+(defn cm-css   [path] (link :rel "stylesheet" :href (str "CodeMirror/" path)))
+
+;; Live widgets example:
+;; http://bl.ocks.org/jasongrout/5378313
+
+(defn get-script
+  ([script continuation-fn]
+   (.getScript js/$ (str "CodeMirror/" script) continuation-fn))
+  ([script]
+   (get-script script identity)))
+
+
+(defn get-scripts [on-complete scripts]
+  (if (empty? scripts)
+    (on-complete)
+    (get-script (first scripts) #(get-scripts on-complete (rest scripts)))))
+
+
+(defn codemirror-js [on-ready]
+  (get-scripts on-ready codemirror-modules))
+
+
+(defn codemirror-css []
+  (let [linkrel-tags (map cm-css stylesheets)]
+    linkrel-tags))
+
+
+(defn cm [] (js/eval "CodeMirror"))
+
+
+(defn doc [] (.-Doc (cm)))
+
+
+(defn wrap-textarea
+  [textarea config]
+  (.fromTextArea (cm) textarea (clj->js config)))
 
 
 (defn create-editor
-  ([textarea config]
-   (.fromTextArea js/CodeMirror textarea (clj->js config)))
-
-  ([config]
-   (js/CodeMirror (.-body js/document) (clj->js config))))
+  [config]
+  ((cm) (.-body js/document) (clj->js config)))
 
 
 ; Functions on top of editor instance

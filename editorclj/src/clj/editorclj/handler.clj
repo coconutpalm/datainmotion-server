@@ -10,11 +10,12 @@
    [ring.middleware.session.cookie :refer [cookie-store]]
    [ring.util.response             :refer [content-type resource-response]]))
 
+
 (defroutes app-routes
   (GET "/" req
-    (-> "index.html"
-        (resource-response)
-        (content-type "text/html")))
+       (-> "index.html"
+           (resource-response)
+           (content-type "text/html")))
   (resources "/" {:root ""})
   (not-found (or (io/resource "public/404.html")
                  "Oups! This page doesn't exist! (404 error)")))
@@ -22,6 +23,6 @@
 (def app
   (-> app-routes
       (wrap-castra 'editorclj.api)
-      (wrap-session {:store (cookie-store "a 16-byte secret")})
+      (wrap-session {:store (cookie-store ",,90aJ4dAn\\Xg&Sn")})
       (wrap-defaults api-defaults)
       (wrap-resource "public")))
