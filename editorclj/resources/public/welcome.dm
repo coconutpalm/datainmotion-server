@@ -1,4 +1,4 @@
-# Welcome to Data in Motion - a networked editor for networked applications
+# Welcome to Data in Motion
 
 Data in Motion is an opinionated Programmer's Editor based on the following principles.
 
@@ -15,18 +15,14 @@ Lastly:
 
 ## Configuration
 
-Global configuration is stored in this file.  Project-specific configuration is stored in a data-in-motion notebook either next to this file or in your project's root.
+Global configuration is stored in all files in the .dm directory inside your home directory.  ```welcome.dm``` (this file) is the main configuration file.
+
+Project-specific configuration is stored in a data-in-motion notebook in your project's root.
 
 --------------------------
 
-## TODO
+# TODO
 
-* Finish switching to local CodeMirror from CDN
-  * Script to clone/update CM and then remove .git folder or use submodule:
-  * Check directly into repo
-  * Encapsulate CM initialization
-    * (codemirror-stylesheets)
-    * (codemirror-js)
 * Write (navbar brand-cell workspaces-cell menubar-cell)
 * Make workspace switching work with hard-coded workspaces
   * Define cell for current workspace navbar metadata

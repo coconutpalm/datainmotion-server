@@ -10,33 +10,35 @@
                  [org.clojure/clojure       "1.8.0"]
                  [org.clojure/clojurescript "1.9.93"]
                  [compliment                "0.3.0"]
-                 [com.github.shopsmart/clojure-navigation "1.0.1"]
+                 [com.github.shopsmart/clj-foundation "0.9.11"]
                  [pandeiro/boot-http        "0.7.3"]
                  [ring                      "1.5.0"]
                  [ring/ring-defaults        "0.2.1"]
-                 [cljsjs/codemirror         "5.11.0-2"]
-                 [cljsjs/d3                 "4.2.0-0"]]
+                 [cljsjs/d3                 "4.2.0-0"]
+                 [cheshire                  "5.6.3"]
+                 [clj-info                  "0.3.1"]
+                 [clj-stacktrace            "0.2.8"]]
+
  :resource-paths #{"resources" "src/clj"}
  :source-paths   #{"src/cljs" "src/hl"})
 
-
 (require
-  '[adzerk.boot-cljs      :refer [cljs]]
-  '[adzerk.boot-reload    :refer [reload]]
-  '[hoplon.boot-hoplon    :refer [hoplon prerender]]
-  '[pandeiro.boot-http    :refer [serve]])
+ '[adzerk.boot-cljs      :refer [cljs]]
+ '[adzerk.boot-reload    :refer [reload]]
+ '[hoplon.boot-hoplon    :refer [hoplon prerender]]
+ '[pandeiro.boot-http    :refer [serve]]
+ '[boot.repl])
 
 
 (deftask dev
-  "Build editorclj for local development."
+  "Build editorclj for local development with regular nrepl server."
   []
   (comp
-   (sift :add-jar {'cljsjs/codemirror #"cljsjs/codemirror/development/codemirror.css"})
-   (sift :move {#"cljsjs/codemirror/development/codemirror.css" "vendor/codemirror/codemirror.css"})
    (serve
     :port    8000
     :handler 'editorclj.handler/app
     :reload  true)
+   (repl)
    (watch)
    (speak)
    (hoplon)
@@ -49,11 +51,6 @@
   []
   (comp
    (hoplon)
-   (sift :add-jar
-         {'cljsjs/codemirror #"cljsjs/codemirror/development/codemirror.css"})
-   (sift :move
-         {#"cljsjs/codemirror/development/codemirror.css"
-          "vendor/codemirror/codemirror.css"})
    (cljs :optimizations :advanced)
    (prerender)))
 

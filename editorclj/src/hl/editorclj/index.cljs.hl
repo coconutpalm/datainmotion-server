@@ -1,15 +1,18 @@
 (page "index.html"
       (:require
-       [editorclj.rpc :as rpc]
+       [editorclj.model :as model]
        [editorclj.codemirror :as e]))
 
-(rpc/init)
+(model/init)
 
 (defn get-element [id] (.getElementById js/document id))
 
 (defn create-editor
   [textarea config]
-  (.fromTextArea js/CodeMirror textarea (clj->js config)))
+  (.fromTextArea js/CodeMirror textarea (clj->js config))
+  (when-let [editor (.fromTextArea js/CodeMirror textarea (clj->js config))]
+    (model/set-editor! editor)
+    (.focus editor)))
 
 ;; See also http://stackoverflow.com/questions/18828658/how-to-kill-a-codemirror-instance
 ;;   ...and http://bl.ocks.org/jasongrout/5378313   CodeMirror live widgets
@@ -27,13 +30,10 @@
                                   "Ctrl-Home" "goDocStart"
                                   "Ctrl-End" "goDocEnd"}
                       :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
-                      :highlightSelectionMatches {:showToken #"\w" :annotateScrollbar true}
                       :theme "default"})
 
-(e/codemirror-js
- (fn []
-   (println "loaded code mirror")
-   (create-editor (get-element "main-config") editor-settings)))
+
+(e/codemirror-js (fn [] (create-editor (get-element "main-config") editor-settings)))
 
 
 (html
@@ -49,6 +49,8 @@
  (head
   (title "Data in Motion")
 
+  (e/codemirror-css)
+
   (link :rel "stylesheet"
         :href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
         :integrity "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
@@ -58,8 +60,6 @@
         :href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
         :integrity "sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
         :crossorigin "anonymous")
-
-  (e/codemirror-css)
 
   (link :rel "stylesheet" :href "app.css")
 
@@ -85,7 +85,7 @@
                               (span :class "icon-bar")
                               (span :class "icon-bar")
                               (span :class "icon-bar"))
-                      (a :class "navbar-brand" :href "#" (text ".dm")))
+                      (a :class "navbar-brand" :href "#" (text "~{model/filename}")))
                  (div :id "navbar" :class "navbar-collapse collapse"
                       (ul :class "nav navbar-nav"
                           (li (a :href "#" (text "<<")))
@@ -100,10 +100,8 @@
                                  (span :class "caret"))
                               (ul :class "dropdown-menu"
                                   (li (a :href "#/workspaces/home-workspace" (text "Home")))
-                                  (li (a :href "#/workspaces/code" (text "Code")))
                                   (li :role "separator" :class "divider")
-                                  ;; Or do I want to define/undefine workspaces in a workspaces.dm file inside Home?
-                                  (li (a :href "#/workspaces?action=new" (text "New...")))
+
                                   (li (a :href "#/workspaces?action=open" (text "Open...")))
                                   (li (a :href "#/workspaces?action=close" (text "Close current")))))) ; Make inactive if home is current
                       (ul :class "nav navbar-nav navbar-right"
@@ -120,6 +118,4 @@
                       (div :id "menu1" :class "tab-pane fade in"
                            (textarea :id "code2" :name "code2"))
                       (div :id "menu2" :class "tab-pane fade in"
-                           (textarea :id "code3" :name "code3"))))))
-
- (on! js/window :load (fn [_] (create-editor (get-element "main-config") editor-settings))))
+                           (textarea :id "code3" :name "code3")))))))

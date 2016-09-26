@@ -1,6 +1,59 @@
 (ns editorclj.api
-  (:require [castra.core :refer [defrpc *session*]]))
+  (:require [castra.core :refer [defrpc *session*]]
+            [clojure.test :refer :all]
+            [clojure.set :only [union]]
+            [clojure.string :as str]
+            [catnip.profile :as pro]
+            [clj-foundation.patterns :as p :refer [let-map]]
+            [clj-foundation.errors :as err]
+            [clj-foundation.io :as io]))
+
+
+;; Project tree handling ---------------------------------------------------
+
+(defn gitignore
+  "Return the set of match expressions in the project's .gitignore file or #{} if none."
+  [project]
+  (let [f (str project "/.gitignore")]))
+
+
+(defn project-tree [project-root] {})
+
+;; Home workspace handling ---------------------------------------------------
+
+(defn home-workspace-dir [] (.getCanonicalPath (pro/profile-dir)))
+
+(defn home-workspace []
+  (let [workspace-dir (home-workspace-dir)
+        welcome-file  (slurp (str workspace-dir "/" pro/profile-filename))]
+    (let-map [name                "Home"
+              root-directory      workspace-dir
+              file-path           workspace-dir
+              filename            (if welcome-file pro/profile-filename "")
+              saved-file-contents (if welcome-file welcome-file
+                                                   (str "Unable to load " (home-workspace-dir) "/" pro/profile-filename))
+              project-tree        (project-tree root-directory)])))
+
+
+;; Application state definition / transitions --------------------------------
+
+(def initial-state
+  {:current-workspace (home-workspace-dir)
+   :workspaces {(home-workspace-dir) (home-workspace)}})
+
+
+(def state (atom initial-state))
+
+
+(defrpc save-file! [path filename contents]
+  (spit (str path "/" filename) contents)
+  (println (str "Saved " path "/" filename))
+  (let [workspace (:current-workspace @state)]
+    (swap! state assoc-in [:workspaces workspace :saved-file-contents] contents)))
+
 
 (defrpc get-state []
-  (swap! *session* update-in [:id] #(or % (rand-int 100)))
-  {:random (rand-int 100) :session (:id @*session*)})
+  @state)
+
+
+(run-tests)

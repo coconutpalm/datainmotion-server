@@ -101,6 +101,8 @@
    "addon/lint/lint.css"])
 
 
+;; Utilities for running from a Github checkout
+;; Alternatively, use (script :type "text/javascript" :src (str "" path))
 (defn cm-script [path] (script :type "text/javascript" :src (str "CodeMirror/" path)))
 (defn cm-css   [path] (link :rel "stylesheet" :href (str "CodeMirror/" path)))
 
