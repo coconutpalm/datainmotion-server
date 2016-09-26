@@ -20,6 +20,11 @@ Making Code Mirror be the best programmer's editor ever.
 
 (loop-tpl :bindings [var1 val1 var2 val2]
   (div :id var1 (text var2)))
+
+; e.g.:
+(ol
+  (loop-tpl :bindings [n history]
+    (li (cell= (str "n was " n)))))
 ```
 
 * Inside regular code, cells are like refs
