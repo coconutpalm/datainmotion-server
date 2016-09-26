@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/.  -->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Catnip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet/less" type="text/css" href="/c/screen.less">
+    <link rel="icon" href="/m/favicon.png">
+    <link rel="shortcut icon" href="/m/favicon.png">
+    <style>body { visibility: hidden; }</style>
+
+    <script type="text/javascript" id="session-profile"></script>
+
+    <script type="text/javascript">
+      var require = {
+        baseUrl: "/j",
+        priority: [
+          "/j/less.js",
+          "/j/jquery/jquery.js",
+          "/j/jquery/caret.js",
+          "/j/jquery/scrollintoview.js",
+          "/j/bootstrap/dropdown.js",
+        ],
+        deps: [
+          "cs!catnip/app"
+        ]
+      };
+    </script>
+    <script type="text/javascript" src="/j/require.js"></script>
+  </head>
+  <body class="loading">
+    <div class="frame">
+      <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand">Catnip</a>
+            <ul class="nav">
+              <li class="divider-vertical"></li>
+              <li class="dropdown">
+                <a tabindex="-1" class="dropdown-toggle" data-toggle="dropdown">Buffers</a>
+                <ul class="dropdown-menu" id="buffer-menu"></ul>
+              </li>
+              <li class="dropdown">
+                <a tabindex="-1" class="dropdown-toggle" data-toggle="dropdown">Options</a>
+                <ul class="dropdown-menu" id="options-menu"></ul>
+              </li>
+            </ul>
+            <form class="navbar-form pull-right location-bar">
+              <div class="input-append">
+                <input type="text" id="location-bar"><button class="btn" type="button" id="location-refresh"><i class="icon-refresh"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="left-pane">
+        <div id="editor"></div>
+        <div class="repl">
+          <div id="repl-display"></div>
+          <div class="repl-holder">
+            <table>
+              <tr>
+                <td id="repl-prompt">user</td>
+                <td class="input-cell"><input id="repl-input" type="text"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="right-pane">
+        <div class="view-frame">
+          <iframe id="view"></iframe>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

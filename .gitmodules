@@ -7,3 +7,6 @@
 [submodule "editorclj/resources/public/hammer.js"]
 	path = editorclj/resources/public/hammer.js
 	url = git@github.com:hammerjs/hammer.js.git
+[submodule "catnip"]
+	path = catnip
+	url = git@github.com:bodil/catnip.git
