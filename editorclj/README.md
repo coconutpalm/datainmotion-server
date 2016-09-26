@@ -1,6 +1,68 @@
 # editorclj
 
-A [Hoplon][4] project with [Castra][2] designed to...well, that part is up to you.
+Making Code Mirror be the best programmer's editor ever.
+
+# Hoplon / Castra / Javelin quick reference
+
+* Cells
+
+```clojure
+(defc val "initial-value")
+(reset! val "new-value")
+```
+
+* Formula cells, interpolation, and template loops over cells containing seqs:
+
+```clojure
+(defc= double-val (str val ", " val)) ; Automatically recalculated
+
+(h1 "Hello, ~{double-val}")
+
+(loop-tpl :bindings [var1 val1 var2 val2]
+  (div :id var1 (text var2)))
+```
+
+* Inside regular code, cells are like refs
+
+```clojure
+(println @double-val)
+```
+
+* Responding to DOM events
+
+```clojure
+(a :click #(reset! val double-val))
+```
+
+* Client-server communication
+
+  * On the server
+
+```clojure
+(def state (atom {session-state}))
+
+(defrpc rpc-event-fn [arg1 arg2 ... argn]
+  (do-something-in-response-to-the-event)
+  (swap! state calculate-new-state))
+```
+
+  * Client-side
+
+```clojure
+; Session state, plus RPC state
+(defc state {})
+(defc error nil)
+(defc= error-message (when error (.-message error)))
+(defc loading [])
+(def clear-error! #(reset! error nil))
+
+; Define RPC apis inside client
+(def rpc-event-fn (mkremote 'package/rpc-event-fn state error loading))  ; Notice, parameters aren't declared here
+
+; Call RPC on server from client
+(defn dom-event-handler [_]
+  (rpc-event-fn arg1 arg2 argn))  ; Parameters here must match those declared on the server
+```
 
 ## Dependencies
 
@@ -36,12 +98,8 @@ transmited to the client. But you should change that to what you want.
 
 ### Deployment
 
-You can easily deploy this application for free to [Heroku][5].
-
-1. Get a Heroku account and install the [Heroku toolbelt][6]
 1. Create an application in the Heroku dashboard
 1. Build a WAR file with `boot make-war`
-1. Follow [these instructions][7] to deploy the WAR to Heroku using the `heroku` tool.
 
 ## License
 
@@ -51,6 +109,3 @@ Copyright © 2016, **Your Name Goes Here**
 [2]: https://github.com/hoplon/castra
 [3]: http://localhost:8000
 [4]: https://hoplon.io
-[5]: https://www.heroku.com/
-[6]: https://toolbelt.heroku.com/
-[7]: https://devcenter.heroku.com/articles/war-deployment#deployment-with-the-heroku-toolbelt

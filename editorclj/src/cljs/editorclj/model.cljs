@@ -26,13 +26,16 @@
 
 
 ;; Domain objects
+
+(defn ws-name [dir] (if (string? dir) (last (.split dir "/")) ""))
+
 (defc= workspace-path      (:current-workspace state))
-(defc= workspace           (get (:workspaces state) workspace-path))
-(defc= all-workspaces      (sort (map (fn [dir] (last (.split dir "/"))) (keys (:workspaces state)))))
-(defc= project-tree        (:project-tree workspace))
-(defc= file-path           (:file-path workspace))
-(defc= filename            (:filename workspace))
-(defc= saved-file-contents (:saved-file-contents workspace))
+(defc= current-workspace   (get (:workspaces state) workspace-path))
+(defc= sorted-workspaces   (sorted-map-by (fn [k1 k2] (< (ws-name k1) (ws-name k2))) (seq (:workspaces state))))
+(defc= project-tree        (:project-tree current-workspace))
+(defc= file-path           (:file-path current-workspace))
+(defc= filename            (:filename current-workspace))
+(defc= saved-file-contents (:saved-file-contents current-workspace))
 
 
 ;; Controllers
@@ -42,7 +45,7 @@
 
 
 (defc= initial-editor-state
-  (let [file (:saved-file-contents workspace)]
+  (let [file (:saved-file-contents current-workspace)]
     (when-let [doc (editor-doc)]
       (let [editor-file (.getValue doc)]
         (when (empty? editor-file)
@@ -72,4 +75,4 @@
 
 (defn init []
   (get-state)
-  (js/setInterval save-if-dirty! 1000))
+  (js/setInterval save-if-dirty! 5000))

@@ -111,11 +111,11 @@
             (div :class "workspace" :id "home-workspace"
                  (textarea :id "main-config" :name "main-config"))
 
-            (div :class "workspace" :id "code"
-                 (div :class "tab-content"
-                      (div :id "home" :class "tab-pane fade in active"
-                           (textarea :id "code" :name "code"))
-                      (div :id "menu1" :class "tab-pane fade in"
-                           (textarea :id "code2" :name "code2"))
-                      (div :id "menu2" :class "tab-pane fade in"
-                           (textarea :id "code3" :name "code3")))))))
+            #_(div :class "workspace" :id "code"
+                   (div :class "tab-content"
+                        (div :id "home" :class "tab-pane fade in active"
+                             (textarea :id "code" :name "code"))
+                        (div :id "menu1" :class "tab-pane fade in"
+                             (textarea :id "code2" :name "code2"))
+                        (div :id "menu2" :class "tab-pane fade in"
+                             (textarea :id "code3" :name "code3")))))))

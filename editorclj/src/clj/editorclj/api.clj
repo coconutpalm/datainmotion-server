@@ -23,23 +23,23 @@
 
 (defn home-workspace-dir [] (.getCanonicalPath (pro/profile-dir)))
 
-(defn home-workspace []
-  (let [workspace-dir (home-workspace-dir)
-        welcome-file  (slurp (str workspace-dir "/" pro/profile-filename))]
-    (let-map [name                "Home"
-              root-directory      workspace-dir
-              file-path           workspace-dir
-              filename            (if welcome-file pro/profile-filename "")
-              saved-file-contents (if welcome-file welcome-file
-                                                   (str "Unable to load " (home-workspace-dir) "/" pro/profile-filename))
-              project-tree        (project-tree root-directory)])))
+(defn open-workspace [workspace-dir]
+  (let-map [name                (last (.split workspace-dir "/"))
+            welcome-file        (when (= ".dm" name) (slurp (str workspace-dir "/" pro/profile-filename)))
+            root-directory      workspace-dir
+            file-path           workspace-dir
+            filename            (if welcome-file pro/profile-filename "")
+            saved-file-contents (if welcome-file welcome-file
+                                    (str "Unable to load " (home-workspace-dir) "/" pro/profile-filename))
+            project-tree        (project-tree root-directory)]))
 
 
 ;; Application state definition / transitions --------------------------------
 
 (def initial-state
-  {:current-workspace (home-workspace-dir)
-   :workspaces {(home-workspace-dir) (home-workspace)}})
+  (let-map [home-workspace    (home-workspace-dir)
+            current-workspace home-workspace
+            workspaces        {home-workspace (open-workspace home-workspace)}]))
 
 
 (def state (atom initial-state))
