@@ -1,3 +1,20 @@
+.CodeMirror {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    font-family:mononoki,monospace;
+    font-size:10pt;
+}
+
+.CodeMirror-focused .cm-matchhighlight {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==);
+    background-position: bottom;
+    background-repeat: repeat-x;
+}
+
+.cm-matchhighlight {background-color: lightgreen}
+
+.CodeMirror-selection-highlight-scrollbar {background-color:
+
 @font-face {
     font-family: 'mononoki';
     src: url('fonts/mononoki-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -39,67 +56,3 @@
     font-style: italic;
 }
 
-.CodeMirror,
-tt{
-  font-family:mononoki,monospace;
-  font-size:10pt;
-}
-
-
-h1 {
-    color: blue;
-}
-
-html,body {
-    height:100%;
-    min-height:100%;
-    width:100%;
-    margin: 0;
-    padding: 0px;
-    overflow: hidden;
-}
-
-body { padding-top: 51px; }
-
-.horizontal {
-    font-size: 0; /* Required because inline-block elements have space between them. Other possible solutions for the problem: http://css-tricks.com/fighting... */
-    overflow: hidden;  /* auto for scrollbar; hidden for none */
-    overflow-y: hidden;
-    white-space: nowrap; /* actually this line of code does the "magic" */
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-}
-
-.horizontal > div.workspace {
-    display: inline-block;
-    font-size: 16px; /* Reset font-size back to normal */
-    vertical-align: top;
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-}
-
-textarea, div.home, div.tab-content, div.tab-pane, div.CodeMirror {
-    height:100%;
-    min-height:100%;
-    width:100%;
-}
-
-
-.gutter {
-  background-color: #eee;
-
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-
-.gutter.gutter-horizontal {
-  background-image: url('grips/vertical.png');
-  cursor: ew-resize;
-}
-
-.gutter.gutter-vertical {
-  background-image: url('grips/horizontal.png');
-  cursor: ns-resize;
-}

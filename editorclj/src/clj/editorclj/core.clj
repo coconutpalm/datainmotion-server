@@ -9,6 +9,6 @@
   (run-jetty handler/app {:join? false :port port}))
 
 (defn start-server
-  "Start castra demo server (port 33333)."
+  "Start castra server (port 33333)."
   [port public-path]
   (swap! server #(or % (app port public-path))))

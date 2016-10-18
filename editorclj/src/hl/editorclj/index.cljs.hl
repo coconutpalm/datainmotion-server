@@ -1,39 +1,19 @@
 (page "index.html"
       (:require
-       [editorclj.model :as model]
-       [editorclj.codemirror :as e]))
+       [editorclj.codemirror :as cm]
+       [editorclj.html :as html :refer [progress-title
+                                        progress-start-value
+                                        progress-end-value
+                                        progress-current-value]]
+       [editorclj.model :as model]))
 
 (model/init)
 
-(defn get-element [id] (.getElementById js/document id))
 
-(defn create-editor
-  [textarea config]
-  (.fromTextArea js/CodeMirror textarea (clj->js config))
-  (when-let [editor (.fromTextArea js/CodeMirror textarea (clj->js config))]
-    (model/set-editor! editor)
-    (.focus editor)))
-
-;; See also http://stackoverflow.com/questions/18828658/how-to-kill-a-codemirror-instance
-;;   ...and http://bl.ocks.org/jasongrout/5378313   CodeMirror live widgets
-;;  https://jbt.github.io/markdown-editor and https://github.com/jbt/markdown-editor   GFM editor using CM
-;;  https://github.com/NextStepWebs/simplemde-markdown-editor
-
-(def editor-settings {:mode "gfm"
-                      :autoRefresh true
-                      :lineNumbers true
-                      :autoCloseBrackets true
-                      :foldGutter true
-                      :lineWrapping true
-                      :extraKeys {"Ctrl-Space" "autocomplete"
-                                  "Ctrl-/" "toggleComment"
-                                  "Ctrl-Home" "goDocStart"
-                                  "Ctrl-End" "goDocEnd"}
-                      :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
-                      :theme "default"})
-
-
-(e/codemirror-js (fn [] (create-editor (get-element "main-config") editor-settings)))
+(cm/load-codemirror-js
+ (fn []
+   (let [editor (cm/create-editor (html/by-id "main-config") cm/default-settings)]
+     (model/set-editor! editor))))
 
 
 (html
@@ -49,8 +29,6 @@
  (head
   (title "Data in Motion")
 
-  (e/codemirror-css)
-
   (link :rel "stylesheet"
         :href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
         :integrity "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
@@ -61,8 +39,6 @@
         :integrity "sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
         :crossorigin "anonymous")
 
-  (link :rel "stylesheet" :href "app.css")
-
   (script :src "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
           :integrity "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
           :crossorigin "anonymous")
@@ -70,6 +46,7 @@
   (link :href "app.css" :rel "stylesheet"))
 
  (body :role "document"
+
        (nav :class "navbar navbar-inverse navbar-fixed-top"
             (div :class "container-fluid"
                  (div :class "navbar-header"
@@ -88,7 +65,8 @@
                       (a :class "navbar-brand" :href "#" (text "~{model/filename}")))
                  (div :id "navbar" :class "navbar-collapse collapse"
                       (ul :class "nav navbar-nav"
-                          (li (a :href "#" (text "<<")))
+                          (li (a :href "#"
+                                 (text "<<")))
                           (li :class "dropdown"
                               (a :href "#"
                                  :class "dropdown-toggle"
@@ -102,10 +80,23 @@
                                   (li (a :href "#/workspaces/home-workspace" (text "Home")))
                                   (li :role "separator" :class "divider")
 
-                                  (li (a :href "#/workspaces?action=open" (text "Open...")))
+                                  (li (a :href "#/workspaces?actionopen" (text "Open...")))
                                   (li (a :href "#/workspaces?action=close" (text "Close current")))))) ; Make inactive if home is current
                       (ul :class "nav navbar-nav navbar-right"
                           (li (a :href "#" (text ">>")))))))
+
+       (div :class "modal fade" :id "progress-dialog" :tabindex "-1" :role "dialog" :aria-labelledby "progress-dialog"
+            (div :class "modal-dialog" :role "document"
+                 (div :class "modal-content"
+                      (div :class "modal-header"
+                           (h4 :class "modal-title" :id "progress-modal" (text progress-title)))
+                      (div :class "modal-body"
+                           (div :class "progress"
+                                (div :class "progress-bar progress-bar-success progress-bar-striped" :role "progressbar" :style "width: 80%"
+                                     :aria-valuemin (str progress-start-value)
+                                     :aria-valuemax (str progress-end-value)
+                                     :aria-valuenow (str progress-current-value)))))))
+
 
        (div :class "home horizontal" :role "main"
             (div :class "workspace" :id "home-workspace"

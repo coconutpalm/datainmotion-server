@@ -2,16 +2,18 @@
 
 Data in Motion is an opinionated Programmer's Editor based on the following principles.
 
+* Data in Motion is polyglot.  The front-end can be written and customized in JavaScript or anything that compiles to it.
+* The editor and coding environment is written in itself; it is immediately and completely customizable, live, as it is running.
+* CodeMirror is the new de facto programmer's editor for all kinds of projects.  You can tweak your environment to do anything CodeMirror can do.
+
+Further:
+
 * Fast streaming data is becoming the new normal.  Why not stream code directly from the editor into a live (dev) system as you type too?
 * Your production build and compiler are the single source of truth for all editing metadata (e.g.: dependency management; refactoring support).  There is no way the IDE and the production build can return differing results because there is no IDE.
 * Code should be editable from anywhere (by potentially many people at once) with nothing more than a web browser (including mobile browsers) and possibly an SSH connection for security.
-* Github-style Markdown (like this file) is the new REPL / Code Notebook.  Just name your file with a .dm extension instead of a .md extension and fenced code blocks will be executed and results displayed inline.
+* Github-style Markdown (like this file) is the new REPL / Code Notebook.  Just name your file with a .dm extension instead of a .md extension and fenced code blocks will be executed and results displayed with the code.
 
 
-Lastly:
-
-* Data in Motion is written using itself, so anyone can extend it the same way it was originally written.
-** (If you choose a dynamic JVM language, you can extend Data in Motion dynamically--in motion.)
 
 ## Configuration
 

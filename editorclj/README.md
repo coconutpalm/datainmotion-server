@@ -2,6 +2,51 @@
 
 Making Code Mirror be the best programmer's editor ever.
 
+# TODO
+
+* Extensibility
+  * Requirejs everything
+  * Function to add (link :rel "stylesheet") to (head ...)
+
+* Workspace is a UI construct only
+  * Mount resource roots to display/edit
+  * Display (in split-panes) editors/viewers for resources
+
+* Resource root types
+  * The current (lein, boot, mvn, gradle) project
+  * Folder on server
+  * HTTP URL
+  * Files available via ssh to somewhere else
+
+* Pluggable editor types
+  * Text editor
+  * Clojure REPL
+  * Ammonite REPL
+  * BASH shell
+  * IFrame (displaying HTTP URL)
+
+* Split panes in workspace areas
+  * Multiple editors of the same resource are linked
+  * Anything can go in any pane
+
+* Clojure editing
+  * Pre-load possible completions into map in browser based on ns form; supply autocompleter
+  * Atomic Delimiters (e.g.: Deleting a paren, quote, etc. deletes to its match, then reformats)
+  * Atomic whitespace (Deleting ws before a paren at beginning of line, moves s-expr to prior line, then reformats)
+    * .markText method in CodeMirror
+  * Formatting
+  * Paredit / Parinfer
+  * Semantic refactoring
+
+# Java interop
+
+* Need an object abstraction that looks/works the same from Java as from Clojure
+  * (Don't want to have to lookup vars in order to access Clojure from Java)
+* Compile Clojure to Scala's runtime
+  * Probably keep the core persistent collection classes
+  * Otherwise, compile a Clojure ns to a Scala object
+
+
 # Hoplon / Castra / Javelin quick reference
 
 * Cells
@@ -14,7 +59,8 @@ Making Code Mirror be the best programmer's editor ever.
 * Formula cells, interpolation, and template loops over cells containing seqs:
 
 ```clojure
-(defc= double-val (str val ", " val)) ; Automatically recalculated
+(defc= double-val (str val ", " val))        ; Automatically recalculated
+(def double-val (cell= (str val ", " val)))  ; (Same meaning as prior line)
 
 (h1 "Hello, ~{double-val}")
 
@@ -44,7 +90,7 @@ Making Code Mirror be the best programmer's editor ever.
   * On the server
 
 ```clojure
-(def state (atom {session-state}))
+(def state (atom {server-state}))
 
 (defrpc rpc-event-fn [arg1 arg2 ... argn]
   (do-something-in-response-to-the-event)
