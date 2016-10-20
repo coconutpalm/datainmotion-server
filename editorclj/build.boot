@@ -2,7 +2,11 @@
  :repositories #(conj % '["jitpack" {:url "https://jitpack.io"}])
 
  :dependencies '[[org.clojure/clojure       "1.8.0"]
+                 [clojure-future-spec       "1.9.0-alpha13"] ; clj 1.9 features backported
+
                  [org.clojure/clojurescript "1.9.229"]
+                 ;; @see https://github.com/binaryage/cljs-oops
+                 [binaryage/oops            "0.5.2"]     ; Switch field access to use this!
                  [org.clojure/core.async    "0.2.395"]
 
                  [adzerk/boot-cljs          "1.7.228-1"]
