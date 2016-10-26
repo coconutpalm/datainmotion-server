@@ -13,13 +13,14 @@
                  [adzerk/boot-reload        "0.4.12"]
                  [boot-deps                 "0.1.6"]
                  [compojure                 "1.6.0-beta1"]
-                 [hoplon/boot-hoplon        "0.2.2"]
-                 [hoplon/castra             "3.0.0-alpha4"]
+                 [hoplon/boot-hoplon        "0.3.0-SNAPSHOT"]
+                 [hoplon/javelin            "3.8.4"]
+                 [hoplon/castra             "3.0.0-alpha5"]
                  [hoplon/hoplon             "6.0.0-alpha16"]
                  [org.clojure/clojure       "1.8.0"]
                  [org.clojure/clojurescript "1.9.93"]
                  [compliment                "0.3.0"]
-                 [clojail "1.0.6"]
+                 [clojail                   "1.0.6"]
                  [nightlight                "1.0.0" :scope "test"]
 
                  [pandeiro/boot-http        "0.7.3"]
@@ -32,10 +33,15 @@
 
                  ;; Misc foundation libraries
                  [im.chit/gita "0.2.5"]
-                 [mount "0.1.10"] ; TODO: Implement!
-                 [defprecated "0.1.3"]
-                 [org.blancas/morph "0.3.0"] ; MONADS that work!
-                 [marick/structural-typing "2.0.5"]  ; Specs at runtime
+                 [org.apache.lucene/lucene-core      "6.2.1"]
+                 [org.apache.tika/tika-core          "1.13"]
+                 [org.apache.tika/tika-parsers       "1.13"]
+                 [org.apache.tika/tika-serialization "1.13"]
+
+                 [mount                     "0.1.10"] ; TODO: Implement!
+                 [defprecated               "0.1.3"]
+                 [org.blancas/morph         "0.3.0"] ; MONADS that work!
+                 [marick/structural-typing  "2.0.5"]  ; Specs at runtime
 
                  ;; clj-foundation toolchain
                  [com.github.shopsmart/clj-foundation "0.9.15"]

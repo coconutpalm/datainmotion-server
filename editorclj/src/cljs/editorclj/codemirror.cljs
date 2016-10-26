@@ -2,10 +2,11 @@
   (:require-macros
    [javelin.core :refer [defc defc=]])
   (:require
-   [editorclj.html :as html]
+   [editorclj.html :as html :refer [stylesheet]]
    [hoplon.core :as h :refer [script link]]
    [javelin.core :refer [cell]]
    [castra.core :refer [mkremote]]))
+
 
 (def codemirror-modules
   ["lib/codemirror.js"
@@ -113,23 +114,22 @@
                        :foldGutter true
                        :lineWrapping true
                        :extraKeys {"Ctrl-Space" "autocomplete"
-                                   "Ctrl-/" "toggleComment"
-                                   "Ctrl-Home" "goDocStart"
-                                   "Ctrl-End" "goDocEnd"}
+                                   "Ctrl-/"     "toggleComment"
+                                   "Ctrl-Home"  "goDocStart"
+                                   "Ctrl-End"   "goDocEnd"}
                        :gutters ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
                        :theme "default"})
 
 
 #_(defn cm-script [path] (script :type "text/javascript" :src (str "CodeMirror/" path)))
-(defn stylesheet [path] (link :rel "stylesheet" :href path))
+
 
 
 (defn load-codemirror-css
   []
-  (let [head (.-head js/document)]
-    (doseq [s stylesheets]
-      (html/append-child head (stylesheet (str "CodeMirror/" s))))
-    (html/append-child head (stylesheet "codemirror-local.css"))))
+  (doseq [s stylesheets]
+    (html/append-head (stylesheet (str "/CodeMirror/" s))))
+  (html/append-head (stylesheet "/codemirror-local.css")))
 
 
 (defn init-codemirror []
@@ -139,11 +139,12 @@
 (defn load-codemirror-js
   "Load CodeMirror js files"
   [continuation-fn]
-  (html/get-scripts "CodeMirror/"
-                    codemirror-modules
-                    #(do (load-codemirror-css)
-                         (init-codemirror)
-                         (continuation-fn))))
+  (html/get-scripts-progress "Loading Code Mirror"
+                             "/CodeMirror/"
+                             codemirror-modules
+                             #(do (load-codemirror-css)
+                                  (init-codemirror)
+                                  (continuation-fn))))
 
 
 

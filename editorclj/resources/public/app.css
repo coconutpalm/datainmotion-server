@@ -61,6 +61,12 @@ html,body {
 
 body { padding-top: 51px; }
 
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
 .horizontal {
     font-size: 0; /* Required because inline-block elements have space between them. Other possible solutions for the problem: http://css-tricks.com/fighting... */
     overflow: hidden;  /* auto for scrollbar; hidden for none */
