@@ -10,3 +10,12 @@
 [submodule "catnip"]
 	path = catnip
 	url = git@github.com:bodil/catnip.git
+[submodule "editorclj/resources/public/splitter"]
+	path = editorclj/resources/public/splitter
+	url = git@github.com:andrienko/splitter.git
+[submodule "editorclj/reepl"]
+	path = editorclj/reepl
+	url = git@github.com:jaredly/reepl.git
+[submodule "reepl"]
+	path = editorclj/reepl
+	url = git@github.com:jaredly/reepl.git
