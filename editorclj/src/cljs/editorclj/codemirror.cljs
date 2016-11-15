@@ -29,7 +29,6 @@
    "mode/haskell/haskell.js"
    "mode/haskell-literate/haskell-literate.js"
    "mode/clike/clike.js"
-   "mode/clojure/clojure.js"
    "mode/groovy/groovy.js"
    "mode/haml/haml.js"
    "mode/nginx/nginx.js"
@@ -44,6 +43,9 @@
    "mode/sql/sql.js"
 
    "mode/meta.js"
+
+   "parinfer-mode/clojure.js"
+   "parinfer-mode/clojure-parinfer.js"
 
    "keymap/emacs.js"
    "keymap/sublime.js"
