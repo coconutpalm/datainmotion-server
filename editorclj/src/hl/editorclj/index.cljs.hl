@@ -65,8 +65,14 @@
                                   (li (a :href "#/workspaces/home-workspace" (text "Home")))
                                   (li :role "separator" :class "divider")
 
+                                  (li (a :href "#/workspaces/home-workspace" (text "Split horizontally")))
+                                  (li (a :href "#/workspaces/home-workspace" (text "Split vertically")))
+                                  (li (a :href "#/workspaces/home-workspace" (text "Delete current split")))
+                                  (li :role "separator" :class "divider")
+
                                   (li (a :href "#/workspaces?actionopen" (text "Open...")))
-                                  (li (a :href "#/workspaces?action=close" (text "Close current")))))) ; Make inactive if home is current
+                                  (li (a :href "#/workspaces?action=close" (text "Close current")))
+                                  (li :role "separator" :class "divider")))) ; Make inactive if home is current
                       (ul :class "nav navbar-nav navbar-right"
                           (li (a :href "#" (text ">>")))))))
 
