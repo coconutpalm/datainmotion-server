@@ -28,8 +28,6 @@
   (:require-macros [cljs.core.async.macros :as m :refer [go alt!]]))
 
 
-(defonce pouch-db (h/get-script "//cdn.jsdelivr.net/pouchdb/6.0.6/pouchdb.min.js"))
-
 
 (defn- hash-to-obj
   "Convert a CLJS structure to a JS object, yielding empty JS object for nil input"
