@@ -19,3 +19,6 @@
 [submodule "reepl"]
 	path = editorclj/reepl
 	url = git@github.com:jaredly/reepl.git
+[submodule "splitter"]
+	path = editorclj/resources/public/splitter
+	url = git@github.com:andrienko/splitter.git
