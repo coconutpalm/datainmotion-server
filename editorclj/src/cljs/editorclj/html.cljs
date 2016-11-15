@@ -143,14 +143,39 @@
   (set! (. dom -innerHTML) content))
 
 
+(def last-script-number (atom 0))
+
+
+(defc all-scripts {})
+(defc= loading-scripts (mapcat (fn [[k status]] (if (:loaded status) [] [status])) (seq all-scripts)))
+(defc= all-scripts-loaded (empty? loading-scripts))
+
+
+(defn script-key [script-tag]
+  (let [k (keyword (swap! last-script-number inc))]
+    (swap! all-scripts assoc-in [k] {:id k
+                                     :source (aget script-tag "outerHTML")
+                                     :loaded false})
+    k))
+
+
+(defn script-loaded [script-key continuation-fn]
+  (fn []
+    (swap! all-scripts assoc-in [script-key :loaded] true)
+    (continuation-fn)))
+
+
 (defn load-script [url-or-tag continuation-fn]
   (let [head (first (by-tag "head"))
         script (if (string? url-or-tag)
                  (h/script :type "text/javascript" :src url-or-tag)
-                 url-or-tag)]
+                 url-or-tag)
+        key (script-key script)]
     (aset script "onreadystatechange" continuation-fn)
     (aset script "onload" continuation-fn)
-    (.appendChild head script)))
+    (.appendChild head script)
+
+    key))
 
 
 (defn get-scripts
