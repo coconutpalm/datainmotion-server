@@ -23,7 +23,7 @@
  (html-meta :name "viewport" :content "width=device-width, initial-scale=1")
 
  (html-meta :name "description"
-            :content "Embeddable multi-language code editor for Java, Scala, Clojure, Javascript, CSS, and so on...")
+            :content "Code editor and workbook for Clojure/Clojurescript")
  (html-meta :name "author"
             :content "David Orme; ShopSmart, LLC.")
 
@@ -32,55 +32,13 @@
 
  (body :role "document"
 
-       (nav :class "navbar navbar-inverse navbar-fixed-top"
-            (div :class "container-fluid"
-                 (div :class "navbar-header"
-                      (button :type "button"
-                              :class "navbar-toggle collapsed"
-                              :data-toggle "collapse"
-                              :data-target "#navbar"
-                              :aria-expanded "false"
-                              :aria-controls "navbar"
-
-                              (span :class "sr-only"
-                                    (text "Toggle navigation"))
-                              (span :class "icon-bar")
-                              (span :class "icon-bar")
-                              (span :class "icon-bar"))
-                      (a :class "navbar-brand" :href "#" (text "~{model/filename}")))
-                 (div :id "navbar" :class "navbar-collapse collapse"
-                      (ul :class "nav navbar-nav"
-                          (li (a :href "#"
-                                 (text "<<")))
-                          (li :class "dropdown"
-                              (a :href "#"
-                                 :class "dropdown-toggle"
-                                 :data-toggle "dropdown"
-                                 :role "button"
-                                 :aria-haspopup "true"
-                                 :aria-expanded "false"
-                                 (text "Workspaces ")
-                                 (span :class "caret"))
-                              (ul :class "dropdown-menu"
-                                  (li (a :href "#/workspaces/home-workspace" (text "Home")))
-                                  (li :role "separator" :class "divider")
-
-                                  (li (a :href "#/workspaces/home-workspace" (text "Split horizontally")))
-                                  (li (a :href "#/workspaces/home-workspace" (text "Split vertically")))
-                                  (li (a :href "#/workspaces/home-workspace" (text "Delete current split")))
-                                  (li :role "separator" :class "divider")
-
-                                  (li (a :href "#/workspaces?actionopen" (text "Open...")))
-                                  (li (a :href "#/workspaces?action=close" (text "Close current")))
-                                  (li :role "separator" :class "divider")))) ; Make inactive if home is current
-                      (ul :class "nav navbar-nav navbar-right"
-                          (li (a :href "#" (text ">>")))))))
+       (index/navbar)
 
        (html/progress-dialog)
 
        (div :class "home horizontal" :role "main"
             (div :class "workspace" :id "home-workspace"
-                 (textarea :id "main-config" :name "main-config"))
+                 (textarea :id "main-config" :name "main-config" (text "~{index/printer}")))
 
             #_(div :class "workspace" :id "code"
                    (div :class "tab-content"
