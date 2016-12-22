@@ -1,50 +1,22 @@
-@font-face {
-    font-family: 'mononoki';
-    src: url('fonts/mononoki-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('fonts/mononoki-Regular.woff2') format('woff2'), /* Super Modern Browsers */
-         url('fonts/mononoki-Regular.woff') format('woff'), /* Pretty Modern Browsers */
-         url('fonts/mononoki-Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
-    font-weight: normal;
-    font-style: normal;
+.nav, .navbar-nav {
+    bottom: 0;
 }
 
-@font-face {
-    font-family: 'mononoki';
-    src: url('fonts/mononoki-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('fonts/mononoki-Bold.woff2') format('woff2'), /* Super Modern Browsers */
-         url('fonts/mononoki-Bold.woff') format('woff'), /* Pretty Modern Browsers */
-         url('fonts/mononoki-Bold.ttf')  format('truetype'); /* Safari, Android, iOS */
-    font-weight: bold;
-    font-style: normal;
+#navbar, .nav, .navbar-right, .workspace-left, .workspace-right, .dropdown-toggle {
+    font-family: 'Source Code Pro',sans-serif;
 }
 
-@font-face {
-    font-family: 'mononoki';
-    src: url('fonts/mononoki-Italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('fonts/mononoki-Italic.woff2') format('woff2'), /* Super Modern Browsers */
-         url('fonts/mononoki-Italic.woff') format('woff'), /* Pretty Modern Browsers */
-         url('fonts/mononoki-Italic.ttf')  format('truetype'); /* Safari, Android, iOS */
-    font-weight: normal;
-    font-style: italic;
-
+.workspace-left, .workspace-right {
+    font-size: 18pt;
 }
 
-@font-face {
-    font-family: 'mononoki';
-    src: url('fonts/mononoki-BoldItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('fonts/mononoki-BoldItalic.woff2') format('woff2'), /* Super Modern Browsers */
-         url('fonts/mononoki-BoldItalic.woff') format('woff'), /* Pretty Modern Browsers */
-         url('fonts/mononoki-BoldItalic.ttf')  format('truetype'); /* Safari, Android, iOS */
-    font-weight: bold;
-    font-style: italic;
+.dropdown-menu {
+    font-family: 'Source Sans Pro',sans-serif;
 }
 
-.CodeMirror,
-tt{
-  font-family:mononoki,monospace;
-  font-size:10pt;
+.navbar-brand {
+    font-family: 'Josefin Sans',sans-serif;
 }
-
 
 h1 {
     color: blue;
@@ -61,7 +33,7 @@ html,body {
 
 body { padding-top: 51px; }
 
-.theme-dropdown .dropdown-menu {
+.theme-dropdown {
   position: static;
   display: block;
   margin-bottom: 20px;
