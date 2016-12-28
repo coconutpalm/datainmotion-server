@@ -21,7 +21,7 @@
                  [org.clojure/clojurescript "1.9.93"]
                  [compliment                "0.3.0"]
                  [clojail                   "1.0.6"]
-                 [nightlight                "1.3.1" :scope "test"]
+                 [nightlight                "LATEST" :scope "test"]
 
                  [pandeiro/boot-http        "0.7.3"]
                  [ring                      "1.5.0"]
