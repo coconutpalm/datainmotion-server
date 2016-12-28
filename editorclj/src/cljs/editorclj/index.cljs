@@ -13,9 +13,6 @@
 (defc= page-title (:name model/current-workspace))
 (defc= page-branding (-> model/current-workspace :split :none)) ; FIXME!
 
-(defc log-cell [])
-(defc= printer (with-out-str (pprint log-cell)))
-
 
 (defn navbar []
   (nav :class "navbar navbar-inverse navbar-fixed-top"
@@ -59,8 +56,8 @@
                                   (for-tpl [w model/sorted-workspaces]
                                            (li (a :href
                                                   (str "#/workspace/" (:name @w))
-                                                  (do (swap! log-cell #(conj % (:name @w)))
-                                                      (swap! log-cell #(conj % (:name @model/current-workspace)))
+                                                  (do (swap! model/log-cell #(conj % (:name @w)))
+                                                      (swap! model/log-cell #(conj % (:name @model/current-workspace)))
                                                       (text (:name w))))))))
 
                           (for-tpl [buffer-type-name model/buffer-type-names]

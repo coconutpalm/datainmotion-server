@@ -36,7 +36,7 @@
 
        (div :class "home horizontal" :role "main"
             (div :class "workspace" :id "home-workspace"
-                 (textarea :id "main-config" :name "main-config" (text "~{index/printer}")))
+                 (textarea :id "main-config" :name "main-config" (text "~{model/printer}")))
 
             #_(div :class "workspace" :id "code"
                    (div :class "tab-content"

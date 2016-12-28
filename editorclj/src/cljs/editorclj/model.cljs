@@ -10,6 +10,10 @@
    [editorclj.html :as html]))
 
 
+(defc log-cell [])
+(defc= printer (with-out-str (pprint log-cell)))
+
+
 (defc content-handlers {"text/x-gfm"           {:name "Markdown"
                                                 :new identity
                                                 :open identity
