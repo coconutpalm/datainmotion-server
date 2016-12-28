@@ -37,12 +37,12 @@
 
 ;; Destructure the session state map using cells
 (defc= workspace-path      (:current-workspace state))
-(defc= current-workspace   (get (:workspaces state) workspace-path))
-(defc= sorted-workspaces   (sorted-map-by (fn [k1 k2] (< (mountpoint-name k1) (mountpoint-name k2))) (seq (:workspaces state))))
-(defc= project-tree        (:project-tree current-workspace))
-(defc= path                (:file-path current-workspace))
-(defc= filename            (:filename current-workspace))
-(defc= contents            (:saved-file-contents current-workspace))
+(defc= current-workspace-  (get (:workspaces state) workspace-path))
+(defc= sorted-workspaces-  (sorted-map-by (fn [k1 k2] (< (mountpoint-name k1) (mountpoint-name k2))) (seq (:workspaces state))))
+(defc= project-tree        (:project-tree current-workspace-))
+(defc= path                (:file-path current-workspace-))
+(defc= filename            (:filename current-workspace-))
+(defc= contents            (:saved-file-contents current-workspace-))
 
 ;; -- CodeMirror concerns are getting mixed in here
 

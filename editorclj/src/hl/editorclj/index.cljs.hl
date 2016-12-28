@@ -2,10 +2,8 @@
       (:require
        [editorclj.codemirror :as cm]
        [editorclj.index :as index]
-       [editorclj.html :as html :refer [progress-title
-                                        progress-start-value
-                                        progress-end-value
-                                        progress-current-value]]
+       [editorclj.html :as html]
+       [editorclj.progress :as progress]
        [editorclj.model :as model]))
 
 
@@ -34,7 +32,7 @@
 
        (index/navbar)
 
-       (html/progress-dialog)
+       (progress/progress-dialog)
 
        (div :class "home horizontal" :role "main"
             (div :class "workspace" :id "home-workspace"

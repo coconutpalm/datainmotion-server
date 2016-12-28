@@ -3,6 +3,7 @@
   (:require [goog.dom :as dom]
             [goog.dom.classes :as classes]
             [goog.events :as events]
+            [editorclj.progress :as progress]
             [hoplon.core :as h :refer [script link div span h4 text]]
             [javelin.core :refer [cell]])
   (:require-macros
@@ -40,56 +41,6 @@
   [tag]
   (as-seq
    (.getElementsByTagName js/document (name tag))))
-
-
-;; Bootstrap progress dialog
-
-(defc progress-title "")
-(defc progress-start-value 0)
-(defc progress-end-value 1)
-(defc progress-current-value 0)
-(defc= progress-percent (-> progress-current-value
-                            #(/ % (- progress-end-value progress-start-value))
-                            (* 100)))
-
-
-(defn progress-dialog
-  "Return a Bootstrap progress dialog element connected to the above cells."
-  []
-  (div :class "modal fade" :id "progress-dialog" :tabindex "-1" :role "dialog" :aria-labelledby "progress-dialog"
-            (div :class "modal-dialog" :role "document"
-                 (div :class "modal-content"
-                      (div :class "modal-header"
-                           (h4 :class "modal-title" :id "progress-modal" (text "~{progress-title}")))
-                      (div :class "modal-body"
-                           (div :class "progress"
-                                (div :class "progress-bar progress-bar-success progress-bar-striped"
-                                     :role "progressbar"
-                                     :style "width: 80%"
-                                     :aria-valuemin "~{progress-start-value}"
-                                     :aria-valuemax "~{progress-end-value}"
-                                     :aria-valuenow "~{progress-current-value}"
-                                     (span :class "sr-only" (text "~{progress-percent}% Complete (success)")))))))))
-
-
-(def progress-dialog-options
-  {:keyboard false})
-
-
-(defn open-progress
-  "Open the progress meter with the specified title"
-  [t start end]
-  (reset! progress-title t)
-  (reset! progress-start-value start)
-  (reset! progress-end-value end)
-  (reset! progress-current-value start)
-  (-> (js/$ "#progress-dialog") (.modal (clj->js progress-dialog-options)))
-  (-> (js/$ "#progress-dialog") (.modal "show")))
-
-
-(defn close-progress
-  []
-  (-> (js/$ "#progress-dialog") (.modal "hide")))
 
 
 ;; Make JS browser collections seqable
@@ -202,12 +153,12 @@
   scripts is a vector of scripts to load.
   all-complete is the continuation function to call when scripts are all loaded."
   [title baseurl scripts all-complete]
-  (open-progress title 0 (count scripts))
+  (progress/open title 0 (count scripts))
   (get-scripts baseurl scripts
                (fn []
-                 (swap! progress-current-value inc))
+                 (swap! progress/current-value inc))
                (fn []
-                 (close-progress)
+                 (progress/close)
                  (all-complete))))
 
 
